@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSC211: Introduction to Computer and Computing - CBT Practice (100 Questions)</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #004085;
+            --accent-color: #28a745;
+            --danger-color: #dc3545;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin: 20px;
+        }
+
+        /* Instructions Screen Styles */
+        #instructions-screen h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .instruction-box {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-color);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .instruction-box ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+        .instruction-box li {
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Quiz Screen Styles */
+        #quiz-screen {
+            display: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            background: var(--danger-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #212529;
+            margin-top: 10px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px 0;
+        }
+
+        .option-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            background: #e2e6ea;
+            border-color: #adb5bd;
+        }
+
+        .option-item input {
+            margin-right: 12px;
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #dee2e6;
+            padding-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .nav-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .nav-btn:disabled {
+            background-color: #ced4da;
+            cursor: not-allowed;
+        }
+
+        #submit-btn {
+            background-color: var(--accent-color);
+        }
+
+        #submit-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Question Palette / Grid Styles (1 to 100) */
+        .palette-container {
+            border-top: 2px solid #dee2e6;
+            padding-top: 15px;
+        }
+
+        .palette-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+            gap: 6px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 2px solid #ced4da;
+        }
+
+        .palette-btn {
+            background-color: #ffffff;
+            border: 1px solid #ced4da;
+            color: #495057;
+            font-size: 12px;
+            font-weight: bold;
+            height: 36px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .palette-btn:hover {
+            background-color: #e2e6ea;
+        }
+
+        .palette-btn.current {
+            border: 2px solid var(--primary-color);
+            background-color: #cce5ff;
+            color: var(--secondary-color);
+        }
+
+        .palette-btn.answered {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: #218838;
+        }
+
+        /* Result & Review Screen Styles */
+        #result-screen {
+            display: none;
+            text-align: center;
+        }
+
+        #result-screen h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .score-display {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 20px 0;
+        }
+
+        #review-screen {
+            display: none;
+            text-align: left;
+        }
+
+        .review-card {
+            background: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .review-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #212529;
+        }
+
+        .review-option {
+            padding: 8px 10px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .correct-ans {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            font-weight: bold;
+        }
+
+        .wrong-ans {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- INSTRUCTIONS SCREEN -->
+    <div id="instructions-screen">
+        <h2>DELTA STATE UNIVERSITY, ABRAKA</h2>
+        <h3 style="text-align: center; color: #555; margin-top: -10px; margin-bottom: 20px;">FACULTY OF SCIENCE</h3>
+        <h4 style="text-align: center; color: var(--primary-color);">SSC211: Introduction to Computer and Computing - CBT Practice</h4>
+        
+        <div class="instruction-box">
+            <strong>EXAMINATION INSTRUCTIONS & GUIDELINES:</strong>
+            <ul>
+                <li><strong>Total Questions:</strong> 100 Multiple-Choice Questions (MCQs) completely randomized across all course topics.</li>
+                <li><strong>Duration:</strong> 60 Minutes. The timer starts immediately upon clicking "Start Assessment".</li>
+                <li><strong>Navigation:</strong> Use Next/Previous buttons or click any number from 1 to 100 on the question palette grid to jump directly.</li>
+                <li><strong>Attempt Tracking:</strong> Answered questions turn green on the navigator grid.</li>
+                <li><strong>Review & Submission:</strong> Upon submission, view your total score and review all correct/incorrect answers.</li>
+            </ul>
+        </div>
+        
+        <button class="btn" onclick="startQuiz()">Start Assessment</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-screen">
+        <div class="quiz-header">
+            <span id="question-counter" style="font-weight: bold; color: var(--primary-color);">Question 1 of 100</span>
+            <div class="timer" id="timer">Time Left: 60:00</div>
+        </div>
+
+        <div class="question-text" id="question-text">Loading question...</div>
+
+        <ul class="options-list" id="options-list">
+            <!-- Dynamically populated options -->
+        </ul>
+
+        <div class="quiz-footer">
+            <button class="nav-btn" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button>
+            <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Next</button>
+            <button class="nav-btn" id="submit-btn" onclick="submitQuiz()" style="display: none;">Submit Assessment</button>
+        </div>
+
+        <!-- 1 TO 100 QUESTION PALETTE GRID -->
+        <div class="palette-container">
+            <div class="palette-title">
+                <span>Question Navigator (Scroll to see 1 - 100):</span>
+                <span style="font-size: 11px; font-weight: normal; color: #6c757d;">Green = Answered | Blue = Current</span>
+            </div>
+            <div class="palette-grid" id="palette-grid">
+                <!-- Dynamically generated 1-100 buttons -->
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="result-screen">
+        <h2>Assessment Completed Successfully</h2>
+        <p>Here is your performance summary for SSC211 Practice Test:</p>
+        <div class="score-display" id="score-display">0 / 100</div>
+        <p id="remark-text" style="font-size: 16px; font-weight: 600; margin-bottom: 25px;"></p>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn" onclick="showReview()" style="background-color: var(--secondary-color);">Review Answers</button>
+            <button class="btn" onclick="location.reload()">Retake Assessment</button>
+        </div>
+    </div>
+
+    <!-- REVIEW SCREEN -->
+    <div id="review-screen">
+        <h2 style="color: var(--primary-color); text-align: center; margin-bottom: 20px;">Exam Answer Review</h2>
+        <div id="review-container">
+            <!-- Dynamically injected review cards -->
+        </div>
+        <button class="btn" onclick="location.reload()" style="margin-top: 20px;">Back to Start</button>
+    </div>
+</div>
+
+<script>
+    // 100 Fully Randomized SSC211 Questions Array (No Chapter Groupings)
+    const questions = [
+        {
+            question: "Calculation Question: Convert the decimal number $(39)_{10}$ into its equivalent binary number using the double-dabble method[span_0](start_span)[span_0](end_span)[span_1](start_span)[span_1](end_span).",
+            options: ["$101111_2$", "$100111_2$", "$111001_2$", "$100011_2$"],
+            answer: 1
+        },
+        {
+            question: "What is the key functional difference between the `END` and `STOP` statements in BASIC[span_2](start_span)[span_2](end_span)[span_3](start_span)[span_3](end_span)?",
+            options: ["END marks the final termination point with no further code allowed; STOP indicates a temporary pause allowing executable code to follow.", "STOP deletes variables, while END preserves them.", "END is used for strings, while STOP is for numbers.", "There is no difference; they are interchangeable keywords."],
+            answer: 0
+        },
+        {
+            question: "A translator program that translates a high-level source code completely into a directly executable target code in one go is a[span_4](start_span)[span_4](end_span).",
+            options: ["Assembler", "Interpreter", "Compiler", "Linker"],
+            answer: 2
+        },
+        {
+            question: "Which keyboard layout is widely used in Central Europe where the 'Z' and 'Y' keys are switched[span_5](start_span)[span_5](end_span)?",
+            options: ["AZERTY", "QWERTZ", "HCESAR", "DVORAK"],
+            answer: 1
+        },
+        {
+            question: "According to Chapter 1, what was the first key intellectual amplifier developed by humans[span_6](start_span)[span_6](end_span)?",
+            options: ["Writing", "Language", "The Abacus", "Printing press"],
+            answer: 1
+        },
+        {
+            question: "In a flowchart, the execution of an operation or computation is denoted using which symbol[span_7](start_span)[span_7](end_span)?",
+            options: ["Parallelogram", "Rectangle", "Diamond", "Oval"],
+            answer: 1
+        },
+        {
+            question: "Calculation Question: Convert the decimal number $(3714)_{10}$ into an octal number using octal-dabble[span_8](start_span)[span_8](end_span):",
+            options: ["$7202_8$", "$6154_8$", "$7120_8$", "$5432_8$"],
+            answer: 0
+        },
+        {
+            question: "What does the acronym BASIC stand for in programming[span_9](start_span)[span_9](end_span)?",
+            options: ["Beginner All-Purpose Symbolic Instruction Code", "Basic Algorithmic System for Integrated Computing", "Binary Automated Standard Instruction Compiler", "Business Application Scientific Instruction Code"],
+            answer: 0
+        },
+        {
+            question: "What output will the BASIC command `PRINT CHR$(65)` produce[span_10](start_span)[span_10](end_span)?",
+            options: ["65", "A", "B", "Z"],
+            answer: 1
+        },
+        {
+            question: "Primary memory is directly connected to the motherboard and is termed volatile because[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span):",
+            options: ["It operates at extremely fast speeds", "It cannot store data permanently and loses content during power outages", "It is read-only by nature", "It is built using magnetic tape"],
+            answer: 1
+        },
+        {
+            question: "Calculation Question: What is the hexadecimal equivalent of the decimal number $(26)_{10}$[span_13](start_span)[span_13](end_span)?",
+            options: ["$1A_{16}$", "$2B_{16}$", "$F1_{16}$", "$1C_{16}$"],
+            answer: 0
+        },
+        {
+            question: "Which computing discipline focuses on the study of how computing technology is used in business[span_14](start_span)[span_14](end_span)?",
+            options: ["Computer Engineering", "Information Systems", "Computer Science", "Computer Graphics"],
+            answer: 1
+        },
+        {
+            question: "What are the three fundamental components of an algorithm[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span)?",
+            options: ["Input, Process, Output", "Sequence, Selection, and Iteration", "Start, Loop, Stop", "Syntax, Logic, Execution"],
+            answer: 1
+        },
+        {
+            question: "What output is generated by the BASIC string function `RIGHT$(\"Good afternoon\", 4)`[span_17](start_span)[span_17](end_span)?",
+            options: ["Good", "noon", "after", "good"],
+            answer: 1
+        },
+        {
+            question: "Computer science is most similar to which of the following fields rather than natural sciences like physics or biology[span_18](start_span)[span_18](end_span)?",
+            options: ["Mathematics", "Mechanical engineering", "Chemistry", "Astronomy"],
+            answer: 0
+        },
+        {
+            question: "Calculation Question: Find the 1's-complement of the binary number $1011010_2$[span_19](start_span)[span_19](end_span).",
+            options: ["$0100110_2$", "$0100101_2$", "$1101101_2$", "$1001010_2$"],
+            answer: 1
+        },
+        {
+            question: "Which ROM variant allows users to erase data by exposure to ultraviolet light[span_20](start_span)[span_20](end_span)?",
+            options: ["PROM", "EPROM", "EEPROM", "Flash RAM"],
+            answer: 1
+        },
+        {
+            question: "An algorithm defines a detailed and unambiguous sequence of actions for solving a particular problem[span_21](start_span)[span_21](end_span). Which of the following is considered core to computer science?",
+            options: ["Vacuum tubes", "Algorithms", "Punch cards", "Operating systems"],
+            answer: 1
+        },
+        {
+            question: "Which CPU register holds the address of the memory location where the CPU wants to read or write data[span_22](start_span)[span_22](end_span)?",
+            options: ["Memory Buffer Register (MBR)", "Memory Address Register (MAR)", "Instruction Register (IR)", "Program Counter (PC)"],
+            answer: 1
+        },
+        {
+            question: "Calculation Question: What is the 2's-complement of the binary number $1011010_2$[span_23](start_span)[span_23](end_span)?",
+            options: ["$0100110_2$", "$0100101_2$", "$1011011_2$", "$1100100_2$"],
+            answer: 0
+        },
+        {
+            question: "What is the radix (base) of the octal number system[span_24](start_span)[span_24](end_span)?",
+            options: ["2", "8", "10", "16"],
+            answer: 1
+        },
+        {
+            question: "Expression Evaluation: Evaluate the BASIC expression following operator precedence: `2 * 3 + 5`[span_25](start_span)[span_25](end_span)[span_26](start_span)[span_26](end_span).",
+            options: ["16", "11", "13", "10"],
+            answer: 1
+        },
+        {
+            question: "According to the levels of abstraction, which layer represents the bottom level where computer hardware is designed and built[span_27](start_span)[span_27](end_span)?",
+            options: ["Software use", "Software design", "Hardware use", "Hardware design"],
+            answer: 3
+        },
+        {
+            question: "Which flowchart symbol indicates the point at which a decision or selection is made[span_28](start_span)[span_28](end_span)?",
+            options: ["Parallelogram", "Rectangle", "Diamond", "Flow line arrow"],
+            answer: 2
+        },
+        {
+            question: "What value does the function call `ASC(\"A\")` return in BASIC[span_29](start_span)[span_29](end_span)?",
+            options: ["32", "65", "97", "1"],
+            answer: 1
+        },
+        {
+            question: "A programmer who writes programs that operate computers behind the scenes (such as directing traffic around the Internet) is a[span_30](start_span)[span_30](end_span):",
+            options: ["Applications programmer", "Systems programmer", "Web designer", "Database manager"],
+            answer: 1
+        },
+        {
+            question: "Calculation Question: Convert the binary number $(10110)_2$ into its decimal equivalent using positional weights[span_31](start_span)[span_31](end_span)[span_32](start_span)[span_32](end_span).",
+            options: ["$(20)_{10}$", "$(22)_{10}$", "$(24)_{10}$", "$(18)_{10}$"],
+            answer: 1
+        },
+        {
+            question: "What does the acronym ASCII stand for[span_33](start_span)[span_33](end_span)?",
+            options: ["American Standard Code for Information Interchange", "Algorithm System for Computer Information Integration", "Advanced Scientific Code for Internal Instructions", "Analog Standard Circuit for Information Interaction"],
+            answer: 0
+        },
+        {
+            question: "Who is recognized as the 'father of the computer' for designing the analytical engine in 1833[span_34](start_span)[span_34](end_span)?",
+            options: ["John von Neumann", "Sir Charles Babbage", "Herman Hollerith", "Blaise Pascal"],
+            answer: 1
+        },
+        {
+            question: "Expression Evaluation: Evaluate the BASIC expression: `4 * 3 / 3 - 5 * 4 / 2`[span_35](start_span)[span_35](end_span).",
+            options: ["-6", "4", "0", "-10"],
+            answer: 0
+        },
+        {
+            question: "What is the output length returned by `LEN(\"Good Morning\")`[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span)?",
+            options: ["10", "11", "12", "13"],
+            answer: 2
+        },
+        {
+            question: "A collection of 8 bits is known as a[span_38](start_span)[span_38](end_span):",
+            options: ["Nibble", "Byte", "Word", "Block"],
+            answer: 1
+        },
+        {
+            question: "Who is largely remembered as the first computer programmer for her work on Babbage's engine[span_39](start_span)[span_39](end_span)?",
+            options: ["Grace Hopper", "Augusta Ada (Countess of Lovelace)", "Jean Sammet", "Margaret Hamilton"],
+            answer: 1
+        },
+        {
+            question: "Calculation Question: What is the decimal equivalent of the octal number $3462_8$[span_40](start_span)[span_40](end_span)?",
+            options: ["$(1842)_{10}$", "$(1706)_{10}$", "$(1536)_{10}$", "$(1924)_{10}$"],
+            answer: 0
+        },
+        {
+            question: "In the hexadecimal number system, letters A through F represent decimal values[span_41](start_span)[span_41](end_span):",
+            options: ["1 to 6", "10 to 15", "11 to 16", "0 to 5"],
+            answer: 1
+        },
+        {
+            question: "Which monitor technology consists of organic compounds that emit their own light when current passes through, eliminating the need for a backlight[span_42](start_span)[span_42](end_span)[span_43](start_span)[span_43](end_span)?",
+            options: ["Cathode Ray Tube (CRT)", "Liquid Crystal Display (LCD)", "Organic Light Emitting Diode (OLED)", "LED monitor"],
+            answer: 2
+        },
+        {
+            question: "Which type of RAM stores data in separate capacitors that gradually discharge and require periodic refreshing[span_44](start_span)[span_44](end_span)?",
+            options: ["Static RAM (SRAM)", "Dynamic RAM (DRAM)", "Read-Only Memory (ROM)", "Cache memory"],
+            answer: 1
+        },
+        {
+            question: "Which device emerged about 5,000 years ago in Asia Minor and is recognized as the first mechanical calculating device[span_45](start_span)[span_45](end_span)?",
+            options: ["Pascaline", "Abacus", "Napier's Bones", "Difference engine"],
+            answer: 1
+        },
+        {
+            question: "What is the correct BASIC expression for the algebraic formula $-b + \\sqrt{b^2 - 4ac}$[span_46](start_span)[span_46](end_span)?",
+            options: ["`-b + (b^2 - 4*a*c)^0.5`", "`-b + sqrt(b^2 - 4ac)`", "`-b + SQR(b - 4*a*c)`", "`-(b + b^2 - 4ac)`"],
+            answer: 0
+        },
+        {
+            question: "Blaise Pascal invented an adding machine called the Pascaline in 1642 which represented digits using[span_47](start_span)[span_47](end_span):",
+            options: ["Vacuum tubes", "Gears", "Magnetic cores", "Punch cards"],
+            answer: 1
+        },
+        {
+            question: "An English-like representation of an algorithm that cannot execute directly on a computer is called[span_48](start_span)[span_48](end_span):",
+            options: ["Machine code", "Pseudocode", "Source code", "Object code"],
+            answer: 1
+        },
+        {
+            question: "Calculation Question: Convert the binary number $101101010_2$ into its equivalent octal number by grouping bits in threes from the LSB[span_49](start_span)[span_49](end_span).",
+            options: ["$(342)_8$", "$(552)_8$", "$(771)_8$", "$(416)_8$"],
+            answer: 1
+        },
+        {
+            question: "What does the BASIC built-in function `INT(x)` do[span_50](start_span)[span_50](end_span)?",
+            options: ["Returns the absolute value of X", "Returns the integer part of X", "Generates a random integer", "Computes the square root"],
+            answer: 1
+        },
+        {
+            question: "In the BASIC hierarchy of operator precedence, which operation is performed *first*[span_51](start_span)[span_51](end_span)?",
+            options: ["Multiplication and division", "Addition and subtraction", "Exponentiation (^)", "Assignment (=)"],
+            answer: 2
+        },
+        {
+            question: "Who built the first calculator to do multiplication and division in 1671[span_52](start_span)[span_52](end_span)?",
+            options: ["Charles Babbage", "Herman Hollerith", "Gottfried Leibniz", "John Atanasoff"],
+            answer: 2
+        },
+        {
+            question: "A graphical, pictorial, or diagrammatical representation of an algorithm is known as a[span_53](start_span)[span_53](end_span):",
+            options: ["Pseudocode", "Flowchart", "Source code", "Data structure"],
+            answer: 1
+        },
+        {
+            question: "Calculation Question: Convert the binary number $11010110_2$ into its equivalent hexadecimal number by grouping bits in fours[span_54](start_span)[span_54](end_span).",
+            options: ["$(C4)_{16}$", "$(D6)_{16}$", "$(E2)_{16}$", "$(F5)_{16}$"],
+            answer: 1
+        },
+        {
+            question: "Which BASIC statement is used to specify comments or documentation remarks within the program code[span_55](start_span)[span_55](end_span)?",
+            options: ["LET", "REM", "INPUT", "DATA"],
+            answer: 1
+        },
+        {
+            question: "Herman Hollerith applied punch cards to drastically reduce the time needed to compute the[span_56](start_span)[span_56](end_span):",
+            options: ["British census", "U.S. census", "European trade index", "Global population metric"],
+            answer: 1
+        },
+        {
+            question: "In flowcharting, which symbol denotes the beginning and ending (start/stop) of a process[span_57](start_span)[span_57](end_span)?",
+            options: ["Rectangle", "Oval / Rounded shape", "Diamond", "Parallelogram"],
+            answer: 1
+        },
+        {
+            question: "Originally, standard ASCII was a 7-bit code representing how many characters[span_58](start_span)[span_58](end_span)?",
+            options: ["64", "128", "256", "512"],
+            answer: 1
+        },
+        {
+            question: "Which BASIC statement allows input data values to be read interactively from the keyboard during program execution[span_59](start_span)[span_59](end_span)?",
+            options: ["PRINT", "INPUT", "READ", "DATA"],
+            answer: 1
+        },
+        {
+            question: "Who developed the first all-electronic computer by 1940 using Boolean algebra and binary circuitry[span_60](start_span)[span_60](end_span)?",
+            options: ["John V. Atanasoff and Clifford Berry", "Alan Turing and Max Newman", "John Kemeny and Thomas Kurtz", "Ted Hoff and Stanley Mazor"],
+            answer: 0
+        },
+        {
+            question: "Binary Coded Decimal (BCD) is typically a[span_61](start_span)[span_61](end_span):",
+            options: ["4-bit code used to represent numeric data only", "8-bit code for text strings", "16-bit code for graphics", "32-bit floating-point code"],
+            answer: 0
+        },
+        {
+            question: "What type of programming error violates the grammatical and syntax rules of the language and halts execution during compilation[span_62](start_span)[span_62](end_span)?",
+            options: ["Logical error", "Run-time error", "Syntax error", "Semantic error"],
+            answer: 2
+        },
+        {
+            question: "First-generation computers (1940s–1950s) used which major electronic component[span_63](start_span)[span_63](end_span)[span_64](start_span)[span_64](end_span)?",
+            options: ["Transistors", "Vacuum tubes", "Integrated circuits", "Microprocessors"],
+            answer: 1
+        },
+        {
+            question: "An error that does not halt program execution but causes the program to produce unexpected results due to a flaw in logic/semantics is called a[span_65](start_span)[span_65](end_span):",
+            options: ["Syntax error", "Logical error", "Compile-time error", "System crash"],
+            answer: 1
+        },
+        {
+            question: "Extended Binary Coded Decimal Interchange Code (EBCDIC) is an 8-bit character coding scheme used primarily on[span_66](start_span)[span_66](end_span):",
+            options: ["Apple computers", "IBM computers", "Microsoft systems", "Linux mainframes"],
+            answer: 1
+        },
+        {
+            question: "Second-generation computers (1950s–1960s) were characterized by the introduction of[span_67](start_span)[span_67](end_span)[span_68](start_span)[span_68](end_span):",
+            options: ["Vacuum tubes", "Transistors", "Microprocessors", "Optical components"],
+            answer: 1
+        },
+        {
+            question: "A computer error that occurs as a result of illegal operations during execution (such as division by zero or running out of memory) is called a[span_69](start_span)[span_69](end_span):",
+            options: ["Syntax error", "Logical error", "Run-time error", "Compile error"],
+            answer: 2
+        },
+        {
+            question: "When converting binary fractions to octal or hexadecimal, if an uncompleted group is left out on the fractional right side, how do we complete the group[span_70](start_span)[span_70](end_span)[span_71](start_span)[span_71](end_span)?",
+            options: ["By adding zeros on the right side (right padding)", "By adding ones on the left side", "By truncating the remaining digits", "By ignoring the fraction"],
+            answer: 0
+        },
+        {
+            question: "Third-generation computers (1960s–1970s) primarily used which technology[span_72](start_span)[span_72](end_span)[span_73](start_span)[span_73](end_span)?",
+            options: ["Integrated Circuits (ICs)", "Very Large Scale Integration (VLSI)", "Magnetic drums", "Thermionic valves"],
+            answer: 0
+        },
+        {
+            question: "What is the purpose of the `PRINT USING` statement in BASIC[span_74](start_span)[span_74](end_span)?",
+            options: ["To clear the screen output", "To allow formatted output specifying the appearance and layout of data items", "To pause program execution", "To define variable string types"],
+            answer: 1
+        },
+        {
+            question: "The 1's-complement of a number is always how much less than its 2's-complement[span_75](start_span)[span_75](end_span)[span_76](start_span)[span_76](end_span)?",
+            options: ["Exactly 1", "Exactly 2", "Exactly 10", "Half its value"],
+            answer: 0
+        },
+        {
+            question: "Fourth-generation computers introduced Very Large Scale Integration (VLSI) and the[span_77](start_span)[span_77](end_span)[span_78](start_span)[span_78](end_span):",
+            options: ["Transistor", "Microprocessor", "Vacuum tube", "Magnetic tape"],
+            answer: 1
+        },
+        {
+            question: "Fifth-generation computers rely on artificial intelligence, parallel processing, and[span_79](start_span)[span_79](end_span):",
+            options: ["Ultra Large-Scale Integration (ULSI)", "Assembly language coding", "Punch card data storage", "Single-bit processing"],
+            answer: 0
+        },
+        {
+            question: "Hardware that is externally attached to the system unit housing is sometimes referred to as a[span_80](start_span)[span_80](end_span):",
+            options: ["System bus", "Peripheral device", "Motherboard component", "Primary storage"],
+            answer: 1
+        },
+        {
+            question: "The individual keys for letters, numbers, and special characters on a computer keyboard are collectively called[span_81](start_span)[span_81](end_span):",
+            options: ["Control keys", "Character keys", "Function keys", "Toggle keys"],
+            answer: 1
+        },
+        {
+            question: "Function keys on a standard keyboard are labeled[span_82](start_span)[span_82](end_span):",
+            options: ["A through Z", "F1 through F12", "1 through 10", "Ctrl, Alt, Shift"],
+            answer: 1
+        },
+        {
+            question: "The keyboard layout designed in 1868 by Christopher Sholes to prevent typewriter jamming is[span_83](start_span)[span_83](end_span):",
+            options: ["QWERTY", "AZERTY", "QWERTZ", "HCESAR"],
+            answer: 0
+        },
+        {
+            question: "Which input device uses a light source (LED or laser) and digital image correlation to track movement[span_84](start_span)[span_84](end_span)[span_85](start_span)[span_85](end_span)?",
+            options: ["Mechanical mouse", "Optical/Laser mouse", "Trackball", "Light pen"],
+            answer: 1
+        },
+        {
+            question: "MICR, commonly used in banking for processing cheques containing magnetic ink particles, stands for[span_86](start_span)[span_86](end_span):",
+            options: ["Magnetic Ink Character Recognition", "Machine Integrated Computer Reader", "Micro Information Code Routine", "Mainframe Input Character Reader"],
+            answer: 0
+        },
+        {
+            question: "Printers that use a typewriting mechanism where a hammer strikes paper through an inked ribbon are classified as[span_87](start_span)[span_87](end_span):",
+            options: ["Non-impact printers", "Impact printers", "Laser printers", "Inkjet printers"],
+            answer: 1
+        },
+        {
+            question: "Print resolution for printers is typically measured in[span_88](start_span)[span_88](end_span):",
+            options: ["Dots per inch (dpi)", "Characters per second (cps)", "Lines per minute (lpm)", "Megahertz (MHz)"],
+            answer: 0
+        },
+        {
+            question: "The system bus is formed from several sub-busses, which include the Address Bus, Control Bus, and[span_89](start_span)[span_89](end_span):",
+            options: ["Data Bus", "Memory Bus", "Input Bus", "Peripheral Bus"],
+            answer: 0
+        },
+        {
+            question: "Which component of the CPU performs arithmetic and logical operations[span_90](start_span)[span_90](end_span)?",
+            options: ["Control Unit (CU)", "Arithmetic Logic Unit (ALU)", "Program Counter", "Accumulator"],
+            answer: 1
+        },
+        {
+            question: "The Program Counter (PC) register is also known as the[span_91](start_span)[span_91](end_span):",
+            options: ["Instruction Pointer Register (IPR)", "Stack Control Register", "Flag Register", "Accumulator Register"],
+            answer: 0
+        },
+        {
+            question: "Why is cache memory utilized in a computer system[span_92](start_span)[span_92](end_span)?",
+            options: ["It provides permanent non-volatile backup storage.", "It operates with less access time than main memory, bridging the speed gap with the CPU.", "It replaces the need for RAM entirely.", "It is used exclusively for printing operations."],
+            answer: 1
+        },
+        {
+            question: "A secondary storage access method where data is searched sequentially line by line until found (e.g., magnetic tape) is called[span_93](start_span)[span_93](end_span):",
+            options: ["Direct access", "Sequential access", "Random access", "Indexed access"],
+            answer: 1
+        },
+        {
+            question: "Which secondary storage access method allows the computer to go directly to the desired information without searching linearly (e.g., magnetic disks)[span_94](start_span)[span_94](end_span)?",
+            options: ["Sequential access", "Direct access", "Line access", "Buffered access"],
+            answer: 1
+        },
+        {
+            question: "Hard disk drives store data on rigid platters traditionally made of[span_95](start_span)[span_95](end_span):",
+            options: ["Flexible plastic", "Aluminum or glass", "Copper or zinc", "Compressed paper"],
+            answer: 1
+        },
+        {
+            question: "What is the standard data storage capacity of a traditional floppy diskette[span_96](start_span)[span_96](end_span)?",
+            options: ["700 KB", "1.44 MB", "4.7 GB", "700 MB"],
+            answer: 1
+        },
+        {
+            question: "A standard single-layer Digital Versatile Disc (DVD) is capable of storing[span_97](start_span)[span_97](end_span):",
+            options: ["700 MB of data", "1.44 MB of data", "4.7 GB of data", "1 TB of data"],
+            answer: 2
+        },
+        {
+            question: "Computers classified according to signal types are divided into which three main groups[span_98](start_span)[span_98](end_span)[span_99](start_span)[span_99](end_span)?",
+            options: ["Micro, Mini, and Mainframe", "Analog, digital, and hybrid", "General, special, and super", "Input, processing, and output"],
+            answer: 1
+        },
+        {
+            question: "Computers designed to be task-specific and dedicated to solving a single particular problem are called[span_100](start_span)[span_100](end_span)?",
+            options: ["General-purpose computers", "Special-purpose computers", "Supercomputers", "Microcomputers"],
+            answer: 1
+        },
+        {
+            question: "Which category of computers has extremely large storage capacity, processing speeds measured in FLOPS, and is used for complex scientific research[span_101](start_span)[span_101](end_span)?",
+            options: ["Mainframe computers", "Supercomputers", "Minicomputers", "Microcomputers"],
+            answer: 1
+        },
+        {
+            question: "Microcomputers are also commonly referred to as[span_102](start_span)[span_102](end_span):",
+            options: ["Personal computers", "Mainframe terminals", "Supercomputing nodes", "Analog processors"],
+            answer: 0
+        },
+        {
+            question: "Unlike a compiler, an interpreter translates a program[span_103](start_span)[span_103](end_span)[span_104](start_span)[span_104](end_span):",
+            options: ["Instruction by instruction, executing each immediately without storing object code", "Entirely before running any code", "Using binary machine codes exclusively", "Only after debugging all logical errors"],
+            answer: 0
+        },
+        {
+            question: "What was the language used in the first generation of programming languages[span_105](start_span)[span_105](end_span)?",
+            options: ["Assembly language", "Machine code", "High-level language", "Pascal"],
+            answer: 1
+        },
+        {
+            question: "Generalized application software used to maintain budgets, financial statements, and grade sheets is[span_106](start_span)[span_106](end_span):",
+            options: ["Word processor", "Spreadsheet software", "Database software", "Presentation software"],
+            answer: 1
+        },
+        {
+            question: "Software applications developed specifically to meet the unique requirements of a particular organization are called[span_107](start_span)[span_107](end_span):",
+            options: ["Generalized packages", "Customized packages", "Shareware packages", "Public-domain software"],
+            answer: 1
+        },
+        {
+            question: "Which software allows users to produce professional text documents like letters and reports (e.g., Microsoft Word)[span_108](start_span)[span_108](end_span)[span_109](start_span)[span_109](end_span)?",
+            options: ["Spreadsheet software", "Word processing software", "Database software", "Presentation software"],
+            answer: 1
+        },
+        {
+            question: "The purpose of database software is to[span_110](start_span)[span_110](end_span):",
+            options: ["Organize and manage data", "Play multimedia files", "Calculate financial budgets", "Compile program source codes"],
+            answer: 0
+        },
+        {
+            question: "Presentation software (such as Microsoft PowerPoint) is primarily used to[span_111](start_span)[span_111](end_span):",
+            options: ["Display information in the form of a slide show", "Edit high-resolution photos", "Manage network traffic", "Write operating system kernels"],
+            answer: 0
+        },
+        {
+            question: "Low-level programming language that uses symbolic or mnemonic codes instead of raw binary is[span_112](start_span)[span_112](end_span):",
+            options: ["Machine language", "Assembly language", "BASIC", "FORTRAN"],
+            answer: 1
+        },
+        {
+            question: "Which attribute of good programming ensures that a program is fast in execution and occupies minimal memory space[span_113](start_span)[span_113](end_span)?",
+            options: ["Accuracy", "Maintainability", "Efficiency", "Portability"],
+            answer: 2
+        },
+        {
+            question: "The most basic unit of information in a digital computer, representing an on/off state, is called a[span_114](start_span)[span_114](end_span):",
+            options: ["Byte", "Bit", "Word", "Nibble"],
+            answer: 1
+        },
+        {
+            question: "The method of repeated division by 2 used to convert decimal integers to binary is called the[span_115](start_span)[span_115](end_span):",
+            options: ["Octal-dabble", "Hex-dabble", "Double-dabble method", "Bit-shift rule"],
+            answer: 2
+        },
+        {
+            question: "An algorithm is a finite set of well-defined step-by-step methods, procedures, or rules for solving any given problem[span_116](start_span)[span_116](end_span). Which of the following is a required property of a good algorithm?",
+            options: ["It must be correct", "It can run infinitely without stopping", "It can contain ambiguities", "It must use machine code directly"],
+            answer: 0
+        },
+        {
+            question: "In a flowchart, making data available for processing (input) and producing output is denoted using which symbol[span_117](start_span)[span_117](end_span)?",
+            options: ["Parallelogram", "Rectangle", "Diamond", "Circle"],
+            answer: 0
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let timerInterval;
+    let timeLeft = 60 * 60; // 60 minutes in seconds
+
+    function startQuiz() {
+        document.getElementById('instructions-screen').style.display = 'none';
+        document.getElementById('quiz-screen').style.display = 'block';
+        buildPalette();
+        loadQuestion(currentQuestionIndex);
+        startTimer();
+    }
+
+    function buildPalette() {
+        const paletteGrid = document.getElementById('palette-grid');
+        paletteGrid.innerHTML = '';
+        for (let i = 0; i < questions.length; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'palette-btn';
+            btn.id = `palette-btn-${i}`;
+            btn.innerText = i + 1;
+            btn.onclick = () => jumpToQuestion(i);
+            paletteGrid.appendChild(btn);
+        }
+        updatePalette();
+    }
+
+    function updatePalette() {
+        for (let i = 0; i < questions.length; i++) {
+            const btn = document.getElementById(`palette-btn-${i}`);
+            if (!btn) continue;
+            
+            btn.className = 'palette-btn';
+            if (i === currentQuestionIndex) {
+                btn.classList.add('current');
+            }
+            if (userAnswers[i] !== null) {
+                btn.classList.add('answered');
+            }
+        }
+    }
+
+    function jumpToQuestion(index) {
+        currentQuestionIndex = index;
+        loadQuestion(currentQuestionIndex);
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                submitQuiz();
+                return;
+            }
+            timeLeft--;
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById('timer').innerText = `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    function loadQuestion(index) {
+        const q = questions[index];
+        document.getElementById('question-counter').innerText = `Question ${index + 1} of ${questions.length}`;
+        document.getElementById('question-text').innerText = q.question;
+
+        const optionsList = document.getElementById('options-list');
+        optionsList.innerHTML = '';
+
+        q.options.forEach((opt, i) => {
+            const isChecked = userAnswers[index] === i ? 'checked' : '';
+            const li = document.createElement('li');
+            li.className = 'option-item';
+            li.innerHTML = `
+                <label style="display: block; cursor: pointer; width: 100%;">
+                    <input type="radio" name="option" value="${i}" ${isChecked} onclick="saveAnswer(${index}, ${i})">
+                    ${String.fromCharCode(65 + i)}. ${opt}
+                </label>
+            `;
+            optionsList.appendChild(li);
+        });
+
+        document.getElementById('prev-btn').disabled = index === 0;
+        if (index === questions.length - 1) {
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('submit-btn').style.display = 'inline-block';
+        } else {
+            document.getElementById('next-btn').style.display = 'inline-block';
+            document.getElementById('submit-btn').style.display = 'none';
+        }
+
+        updatePalette();
+    }
+
+    function saveAnswer(qIndex, optIndex) {
+        userAnswers[qIndex] = optIndex;
+        updatePalette();
+    }
+
+    function nextQuestion() {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            loadQuestion(currentQuestionIndex);
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            loadQuestion(currentQuestionIndex);
+        }
+    }
+
+    function submitQuiz() {
+        clearInterval(timerInterval);
+        document.getElementById('quiz-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+
+        let score = 0;
+        questions.forEach((q, i) => {
+            if (userAnswers[i] === q.answer) {
+                score++;
+            }
+        });
+
+        document.getElementById('score-display').innerText = `${score} / ${questions.length}`;
+        
+        let remark = "";
+        const percentage = (score / questions.length) * 100;
+        if (percentage >= 70) {
+            remark = "Excellent! You are thoroughly prepared for your SSC211 CBT exam.";
+        } else if (percentage >= 50) {
+            remark = "Good effort! Review your weaker topics to secure a top grade.";
+        } else {
+            remark = "Needs Improvement. Go through the course manual sections again and retake the practice.";
+        }
+        document.getElementById('remark-text').innerText = remark;
+    }
+
+    function showReview() {
+        document.getElementById('result-screen').style.display = 'none';
+        document.getElementById('review-screen').style.display = 'block';
+
+        const reviewContainer = document.getElementById('review-container');
+        reviewContainer.innerHTML = '';
+
+        questions.forEach((q, index) => {
+            const userChoice = userAnswers[index];
+            const isCorrect = userChoice === q.answer;
+
+            let card = document.createElement('div');
+            card.className = 'review-card';
+            card.style.borderLeft = isCorrect ? '5px solid #28a745' : '5px solid #dc3545';
+
+            let qHtml = `<div class="review-question">Q${index + 1}: ${q.question}</div>`;
+
+            q.options.forEach((opt, optIdx) => {
+                let optClass = 'review-option';
+                let indicator = '';
+
+                if (optIdx === q.answer) {
+                    optClass += ' correct-ans';
+                    indicator = ' <strong>(Correct Answer)</strong>';
+                } else if (optIdx === userChoice && !isCorrect) {
+                    optClass += ' wrong-ans';
+                    indicator = ' <strong>(Your Answer - Incorrect)</strong>';
+                } else if (optIdx === userChoice && isCorrect) {
+                    indicator = ' <strong>(Your Answer - Correct)</strong>';
+                }
+
+                qHtml += `<div class="${optClass}">${String.fromCharCode(65 + optIdx)}. ${opt}${indicator}</div>`;
+            });
+
+            card.innerHTML = qHtml;
+            reviewContainer.appendChild(card);
+        });
+    }
+</script>
+
+</body>
+</html>
